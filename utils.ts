@@ -1,4 +1,4 @@
-import { juejinHeaderHandler, juejinUploadDataHandler } from "~module/juejin"
+import { juejinHeaderHandler, juejinUploadDataHandler } from "~module/juejin";
 import { EWebsite } from "~types"
 
 export const getDomainFromDetails = (
@@ -85,11 +85,10 @@ export const getRequestBodyFromWebRequestBodyDetails = (
 }
 
 // 读取是否点击已读tip
-export const getIsClickTip = (callback: (result: boolean) => void) => {
-  chrome.storage.local.get(["isClickTip"], (result) => {
-    console.log("isClickTip:", result.isClickTip)
-    callback(!!result.isClickTip)
-  })
+export const getIsClickTip = async (callback: (result: boolean) => void) => {
+  const result = await chrome.storage.local.get(["isClickTip"])
+  console.log("get result:", result)
+  callback(result.isClickTip)
 }
 
 // 设置是否点击已读tip
@@ -97,4 +96,8 @@ export const setIsClickTip = (isClickTip: boolean) => {
   chrome.storage.local.set({ isClickTip }, () => {
     console.log("保存成功")
   })
+}
+
+export const asyncSleep = (ms: number = 1500) => {
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }
