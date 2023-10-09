@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import Status from "~components/Status"
 import { getWebsiteCheckInStatus, saveWebsiteCheckInStatus } from "~module/help"
 import { juejinStore } from "~store"
-import { EWebsite } from "~types"
+import { EStatus, EWebsite } from "~types"
 
 import Logo from "./Logo"
 
@@ -15,7 +15,8 @@ export default function () {
   useEffect(() => {
     getWebsiteCheckInStatus(EWebsite.juejinHeader).then((status) => {
       console.log(status)
-      setConfig({ status })
+      // setConfig({ status })
+      setConfig({ status: EStatus.Success })
     })
   }, [])
 
