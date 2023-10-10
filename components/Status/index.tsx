@@ -1,14 +1,28 @@
 import clsx from "clsx"
 import { Tooltip } from "react-tooltip"
 
-import { EStatus } from "~types"
+import { EStatus, EStatusKey, EWebsite } from "~types"
 
 interface IProps {
   status: EStatus
   classNames?: string
+  checkInPage: string
+  enableKey: EStatusKey
+  onEnable: () => void
+  onDisable: () => void
 }
 
-export default function ({ status, classNames }: IProps) {
+export default function ({
+  status,
+  classNames,
+  checkInPage,
+  onEnable,
+  onDisable
+}: IProps) {
+  const onOpenCheckInPage = () => {
+    window.open(checkInPage, "_blank")
+  }
+
   const statusMap = {
     [EStatus.Success]: (
       <div
@@ -31,11 +45,12 @@ export default function ({ status, classNames }: IProps) {
     [EStatus.Disable]: (
       <div
         data-tooltip-id="my-tooltip"
-        data-tooltip-content="启用！"
+        data-tooltip-content="点击启用！"
         className={clsx(classNames, "flex gap-1 items-center text-sm")}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="text-gray-800 p-[2px]  hover:bg-gray-200 rounded-full"
+          onClick={onEnable}
           width="32"
           height="32"
           viewBox="0 0 24 24">
@@ -98,6 +113,7 @@ export default function ({ status, classNames }: IProps) {
         className={clsx(classNames, "flex gap-1 items-center text-sm")}>
         <svg
           className="text-purple-600 p-[2px]  hover:bg-gray-200 rounded-full"
+          onClick={onOpenCheckInPage}
           xmlns="http://www.w3.org/2000/svg"
           width="32"
           height="32"
@@ -114,8 +130,72 @@ export default function ({ status, classNames }: IProps) {
   }
 
   return (
-    <div>
+    <div className="flex gap-2 items-center">
       {statusMap[status] ?? statusMap[EStatus.Wait2Reset]}
+      {status !== EStatus.Disable && (
+        <div
+          data-tooltip-id="my-tooltip"
+          data-tooltip-content="点击禁用！"
+          className={clsx(classNames, "flex gap-1 items-center text-sm")}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="text-green-500 p-[2px]  hover:bg-gray-200 rounded-full"
+            onClick={onDisable}
+            width="32"
+            height="32"
+            viewBox="0 0 24 24">
+            <mask id="lineMdSwitchFilled0">
+              <g
+                fill="#fff"
+                fill-opacity="0"
+                stroke="#fff"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2">
+                <rect
+                  width="18"
+                  height="8"
+                  x="3"
+                  y="8"
+                  stroke-dasharray="54"
+                  stroke-dashoffset="54"
+                  rx="4">
+                  <animate
+                    fill="freeze"
+                    attributeName="stroke-dashoffset"
+                    dur="0.6s"
+                    values="54;0"
+                  />
+                </rect>
+                <animate
+                  fill="freeze"
+                  attributeName="fill-opacity"
+                  begin="0.7s"
+                  dur="0.2s"
+                  values="0;1"
+                />
+              </g>
+              <circle cx="17" cy="12" r="3" fill-opacity="0">
+                <animate
+                  fill="freeze"
+                  attributeName="fill-opacity"
+                  begin="0.9s"
+                  dur="0.2s"
+                  values="0;1"
+                />
+              </circle>
+            </mask>
+            <rect
+              width="20"
+              height="10"
+              x="2"
+              y="7"
+              fill="currentColor"
+              mask="url(#lineMdSwitchFilled0)"
+            />
+          </svg>
+        </div>
+      )}
       <Tooltip id="my-tooltip" />
     </div>
   )

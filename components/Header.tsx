@@ -1,4 +1,4 @@
-import { animated, useSpring } from "@react-spring/web"
+import { animated, useSpring } from "@react-spring/web";
 import githubIcon from "data-base64:~assets/github.svg"
 import logo from "data-base64:~assets/icon.png"
 
@@ -24,7 +24,7 @@ export default () => {
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent"
         }}>
-        签到面板
+        CheckCheck
         <img src={logo} className="inline-block w-4 h-4 ml-1" />
       </h3>
       <a href="https://github.com/Developer27149" target="_blank">

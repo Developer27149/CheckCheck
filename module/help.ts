@@ -1,4 +1,4 @@
-import { EStatus, EStorageKey } from "~types"
+import { EStatus, EStorageKey, EWebsite } from "~types"
 
 export const getHeaderFromRequestHeaders = (
   requestHeaders: chrome.webRequest.HttpHeader[]
@@ -44,21 +44,15 @@ export const saveWebsiteCheckInStatus = async (key: string, value: boolean) => {
 }
 
 // 读取站点是否启用签到的状态
-export const getWebsiteCheckInStatus = async (key: string) => {
+export const checkIsEnableByWebsiteKey = async (key: EWebsite) => {
   const realKey = `checkIn-${key}`
   try {
     // 读取配置，检查是否启用
     const res = await chrome.storage.sync.get(realKey)
-    const isEnable = res[realKey] ?? false
-    if (!isEnable) return EStatus.Disable
-    // 检查签到是否过期
-    const validKey = `checkIn-${key}-valid`
-    const checkInRecord = await chrome.storage.sync.get(validKey)
-    const isValid = checkInRecord[validKey] ?? false
-    if (!isValid) return EStatus.Wait2Reset
-    return EStatus.Success
+    return res[realKey] ?? false
   } catch (error) {
     console.log("获取站点签到状态失败", error)
     console.log("key:", realKey)
+    return false
   }
 }

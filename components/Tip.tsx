@@ -10,16 +10,18 @@ export default ({
 }) => {
   const [tipSprings, api] = useSpring(() => ({
     from: {
-      transform: "scaleY(0)"
+      height: 0,
+      opacity: 0
     },
     to: {
-      transform: "scaleY(1)"
+      height: 132,
+      opacity: 1
     }
   }))
 
   return (
     <animated.p
-      style={tipSprings}
+      style={{ ...tipSprings, transformOrigin: "top" }}
       className="text-gray-500 text-sm p-2 bg-green-50 my-2 mb-4 border-l-[4px] rounded-sm border-green-500">
       启用目标站点的签到功能之后，需要手动进行一次签到以获取凭证，后续每天将会自动签到，直到目标站点的凭证过期
       🚀 <br />
@@ -27,10 +29,12 @@ export default ({
         onClick={() => {
           api.start({
             from: {
-              transform: "scaleY(1)"
+              height: 132,
+              opacity: 1
             },
             to: {
-              transform: "scaleY(0)"
+              height: 0,
+              opacity: 0
             },
             onResolve: () => {
               setGotTip(true)

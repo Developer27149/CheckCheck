@@ -1,36 +1,47 @@
-import clsx from "clsx"
-import { useAtom } from "jotai"
+import { EStatus, EStatusKey, EStorageKey, EWebsite } from "~types"
+import {
+  checkIsEnableByWebsiteKey,
+  saveWebsiteCheckInStatus
+} from "~module/help"
 import { useEffect, useState } from "react"
 
-import Status from "~components/Status"
-import { getWebsiteCheckInStatus, saveWebsiteCheckInStatus } from "~module/help"
-import { juejinStore } from "~store"
-import { EStatus, EWebsite } from "~types"
-
 import Logo from "./Logo"
+import Status from "~components/Status"
+import clsx from "clsx"
+import { juejinStore } from "~store"
+import { useAtom } from "jotai"
 
 export default function () {
   const [config, setConfig] = useAtom(juejinStore)
 
   useEffect(() => {
-    getWebsiteCheckInStatus(EWebsite.juejinHeader).then((status) => {
-      console.log(status)
+    // 检查是否启用
+    checkIsEnableByWebsiteKey(EWebsite.juejinHeader).then((isEnable) => {
+      console.log("juejin is enable:", isEnable)
+      
       // setConfig({ status })
-      setConfig({ status: EStatus.Success })
     })
   }, [])
 
-  const onChangeState = () => {
-    console.log("change juejin state")
-    // setIsEnable(!isEnable)
-    // saveWebsiteCheckInStatus(EWebsite.juejinHeader, !isEnable)
+  const onChangeState = (status: EStatus) => {
+    console.log("change juejin state", status)
+    setConfig({ status })
+    saveWebsiteCheckInStatus(
+      EWebsite.juejinHeader,
+      status === EStatus.Disable ? false : true
+    )
   }
+
   return (
-    <div
-      className="relative cursor-pointer bg-[#f4f6f8] flex items-center justify-between gap-4 p-6 rounded-lg"
-      onClick={onChangeState}>
+    <div className="relative cursor-pointer bg-[#f4f6f8] flex items-center justify-between gap-4 p-6 rounded-lg">
       <Logo />
-      <Status status={config.status} />
+      <Status
+        status={config.status}
+        checkInPage={EWebsite.juejinCheckInPage}
+        enableKey={EStatusKey.juejin}
+        onEnable={() => onChangeState(EStatus.Wait2Reset)}
+        onDisable={() => onChangeState(EStatus.Disable)}
+      />
     </div>
   )
 }
