@@ -16,10 +16,10 @@ export default function () {
 
   useEffect(() => {
     // 检查是否启用
-    checkIsEnableByWebsiteKey(EWebsite.juejinHeader).then((isEnable) => {
+    checkIsEnableByWebsiteKey(EWebsite.juejinHeader).then(async (isEnable) => {
       console.log("juejin is enable:", isEnable)
       
-      // setConfig({ status })
+      // setConfig({ status:  })
     })
   }, [])
 
@@ -33,7 +33,7 @@ export default function () {
   }
 
   return (
-    <div className="relative cursor-pointer bg-[#f4f6f8] flex items-center justify-between gap-4 p-6 rounded-lg">
+    <div className="relative cursor-pointer bg-[#f7f8fa] flex items-center justify-between gap-4 p-6 rounded-lg">
       <Logo />
       <Status
         status={config.status}

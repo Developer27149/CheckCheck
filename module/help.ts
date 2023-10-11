@@ -43,16 +43,35 @@ export const saveWebsiteCheckInStatus = async (key: string, value: boolean) => {
   }
 }
 
+export const getSyncCheckStatusRecord = async () => {
+  const record = await chrome.storage.sync.get(EStorageKey.签到启用状态表)
+  return record[EStorageKey.签到启用状态表] ?? {}
+}
+
+const saveSyncCheckStatusRecord = (record: Record<string, boolean>) =>
+  chrome.storage.sync.set({
+    [EStorageKey.签到启用状态表]: record
+  })
+
 // 读取站点是否启用签到的状态
 export const checkIsEnableByWebsiteKey = async (key: EWebsite) => {
-  const realKey = `checkIn-${key}`
   try {
-    // 读取配置，检查是否启用
-    const res = await chrome.storage.sync.get(realKey)
-    return res[realKey] ?? false
+    const record = await getSyncCheckStatusRecord()
+    return !!record[key]
   } catch (error) {
-    console.log("获取站点签到状态失败", error)
-    console.log("key:", realKey)
+    console.log("failed: get status by key:", key)
     return false
+  }
+}
+
+// 保存签到记录启用状态
+export const saveCheckInRecord = async (key: string, value: boolean) => {
+  try {
+    const record = await getSyncCheckStatusRecord()
+    record[key] = value
+    await saveSyncCheckStatusRecord(record)
+  } catch (error) {
+    console.log("key:", key, " value:", value)
+    console.log("保存签到记录启用状态失败", error)
   }
 }

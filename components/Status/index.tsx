@@ -19,6 +19,8 @@ export default function ({
   onEnable,
   onDisable
 }: IProps) {
+  console.log("status:", status)
+
   const onOpenCheckInPage = () => {
     window.open(checkInPage, "_blank")
   }
@@ -59,7 +61,7 @@ export default function ({
               fill="#fff"
               fill-opacity="0"
               stroke="#fff"
-              stroke-linecap="round"
+              strokeLinecap="round"
               stroke-linejoin="round"
               stroke-width="2">
               <rect
@@ -149,7 +151,7 @@ export default function ({
                 fill="#fff"
                 fill-opacity="0"
                 stroke="#fff"
-                stroke-linecap="round"
+                strokeLinecap="round"
                 stroke-linejoin="round"
                 stroke-width="2">
                 <rect

@@ -25,4 +25,13 @@ export enum EStatus {
   Disable = "disable",
   // 等待重置
   Wait2Reset = "wait2Reset"
+  // 加载中
+  // Loading = "loading"
+}
+
+
+// sign in status record
+export enum EStorageKey {
+  签到启用状态表 = "checkInEnableStatus",
+  签到记录表 = "checkInRecord",
 }

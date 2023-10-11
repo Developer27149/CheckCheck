@@ -1,5 +1,6 @@
-import { juejinHeaderHandler, juejinUploadDataHandler } from "~module/juejin";
-import { EWebsite } from "~types"
+import { getSyncCheckStatusRecord } from "~module/help"
+import { juejinHeaderHandler, juejinUploadDataHandler } from "~module/juejin"
+import { EStorageKey, EWebsite } from "~types"
 
 export const getDomainFromDetails = (
   details: chrome.webRequest.WebRequestDetails
@@ -100,4 +101,14 @@ export const setIsClickTip = (isClickTip: boolean) => {
 
 export const asyncSleep = (ms: number = 1500) => {
   return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+// 读取应用的签到记录, 初始化所有插件模块的状态
+export const initStorageCheckTask = async (
+  callback: (record: Record<string, boolean>) => unknown
+) => {
+  // 检查已启用的数据
+  const record = await getSyncCheckStatusRecord()
+  console.log("record:", record)
+  callback(record)
 }
