@@ -1,29 +1,36 @@
+import { useAtom } from "jotai";
+import { useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
+
+
+
 import Header from "~components/Header"
 import Juejin from "~components/Juejin"
 import Loading from "~components/Loading"
 import Tip from "~components/Tip"
+import { juejinStore } from "~store"
+import { EStatus, EWebsite, TSignInEnableMap, type } from "~types"
 import { asyncSleep, getIsClickTip, initStorageCheckTask } from "~utils"
-import { useEffect, useState } from "react"
-import { ToastContainer } from "react-toastify"
 
-import "./style.css";
-import "react-toastify/dist/ReactToastify.css";
-import "react-tooltip/dist/react-tooltip.css";
+import "./style.css"
+import "react-toastify/dist/ReactToastify.css"
+import "react-tooltip/dist/react-tooltip.css"
 
 function IndexPopup() {
   const [loading, setLoading] = useState(true)
 
   const [gotTip, setGotTip] = useState(null)
-
+  const [, setJuejinStore] = useAtom(juejinStore)
   useEffect(() => {
     const init = async () => {
       try {
         await Promise.all([
           getIsClickTip(setGotTip),
           asyncSleep(0),
-          initStorageCheckTask((record: Record<string, boolean>) => {
+          initStorageCheckTask((record: TSignInEnableMap) => {
             // 拿到所有签到功能启用状态数据记录
             console.log("all enable record:", record)
+            setJuejinStore({ status: EStatus.Disable })
           })
         ])
         setLoading(false)

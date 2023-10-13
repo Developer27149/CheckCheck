@@ -1,7 +1,7 @@
 import clsx from "clsx"
 import { Tooltip } from "react-tooltip"
 
-import { EStatus, EStatusKey, EWebsite } from "~types"
+import { EStatus, EStatusKey } from "~types"
 
 interface IProps {
   status: EStatus
@@ -137,7 +137,7 @@ export default function ({
       {status !== EStatus.Disable && (
         <div
           data-tooltip-id="my-tooltip"
-          data-tooltip-content="点击禁用！"
+          // data-tooltip-content="点击禁用！"
           className={clsx(classNames, "flex gap-1 items-center text-sm")}>
           <svg
             xmlns="http://www.w3.org/2000/svg"

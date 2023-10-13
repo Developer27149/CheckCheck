@@ -1,6 +1,6 @@
 import { getSyncCheckStatusRecord } from "~module/help"
 import { juejinHeaderHandler, juejinUploadDataHandler } from "~module/juejin"
-import { EStorageKey, EWebsite } from "~types"
+import { EStorageKey, EWebsite, TSignInEnableMap, type } from "~types"
 
 export const getDomainFromDetails = (
   details: chrome.webRequest.WebRequestDetails
@@ -88,8 +88,7 @@ export const getRequestBodyFromWebRequestBodyDetails = (
 // 读取是否点击已读tip
 export const getIsClickTip = async (callback: (result: boolean) => void) => {
   const result = await chrome.storage.local.get(["isClickTip"])
-  console.log("get result:", result)
-  callback(result.isClickTip)
+  callback(!!result["isClickTip"])
 }
 
 // 设置是否点击已读tip
@@ -105,10 +104,9 @@ export const asyncSleep = (ms: number = 1500) => {
 
 // 读取应用的签到记录, 初始化所有插件模块的状态
 export const initStorageCheckTask = async (
-  callback: (record: Record<string, boolean>) => unknown
+  callback: (record: TSignInEnableMap) => unknown
 ) => {
   // 检查已启用的数据
   const record = await getSyncCheckStatusRecord()
-  console.log("record:", record)
   callback(record)
 }

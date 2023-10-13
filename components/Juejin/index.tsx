@@ -1,15 +1,16 @@
-import { EStatus, EStatusKey, EStorageKey, EWebsite } from "~types"
+import clsx from "clsx"
+import { useAtom } from "jotai"
+import { useEffect, useState } from "react"
+
+import Status from "~components/Status"
 import {
   checkIsEnableByWebsiteKey,
   saveWebsiteCheckInStatus
 } from "~module/help"
-import { useEffect, useState } from "react"
+import { juejinStore } from "~store"
+import { EStatus, EStatusKey, EStorageKey, EWebsite } from "~types"
 
 import Logo from "./Logo"
-import Status from "~components/Status"
-import clsx from "clsx"
-import { juejinStore } from "~store"
-import { useAtom } from "jotai"
 
 export default function () {
   const [config, setConfig] = useAtom(juejinStore)
@@ -18,7 +19,7 @@ export default function () {
     // 检查是否启用
     checkIsEnableByWebsiteKey(EWebsite.juejinHeader).then(async (isEnable) => {
       console.log("juejin is enable:", isEnable)
-      
+
       // setConfig({ status:  })
     })
   }, [])

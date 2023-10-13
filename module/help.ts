@@ -1,4 +1,4 @@
-import { EStatus, EStorageKey, EWebsite } from "~types"
+import { EStatus, EStorageKey, EWebsite, TSignInEnableMap, type } from "~types"
 
 export const getHeaderFromRequestHeaders = (
   requestHeaders: chrome.webRequest.HttpHeader[]
@@ -43,12 +43,12 @@ export const saveWebsiteCheckInStatus = async (key: string, value: boolean) => {
   }
 }
 
-export const getSyncCheckStatusRecord = async () => {
+export const getSyncCheckStatusRecord = async (): Promise<TSignInEnableMap> => {
   const record = await chrome.storage.sync.get(EStorageKey.签到启用状态表)
-  return record[EStorageKey.签到启用状态表] ?? {}
+  return record[EStorageKey.签到启用状态表] ?? new Map()
 }
 
-const saveSyncCheckStatusRecord = (record: Record<string, boolean>) =>
+const saveSyncCheckStatusRecord = (record: TSignInEnableMap) =>
   chrome.storage.sync.set({
     [EStorageKey.签到启用状态表]: record
   })
@@ -57,7 +57,7 @@ const saveSyncCheckStatusRecord = (record: Record<string, boolean>) =>
 export const checkIsEnableByWebsiteKey = async (key: EWebsite) => {
   try {
     const record = await getSyncCheckStatusRecord()
-    return !!record[key]
+    return record.has(key) ? record.get(key) : true
   } catch (error) {
     console.log("failed: get status by key:", key)
     return false

@@ -19,19 +19,14 @@ export enum EStatusKey {
 }
 
 export enum EStatus {
-  // Success
-  Success = "success",
-  // 禁用
   Disable = "disable",
-  // 等待重置
-  Wait2Reset = "wait2Reset"
-  // 加载中
-  // Loading = "loading"
+  Enable = "enable"
 }
-
 
 // sign in status record
 export enum EStorageKey {
   签到启用状态表 = "checkInEnableStatus",
-  签到记录表 = "checkInRecord",
+  签到记录表 = "checkInRecord"
 }
+
+export type TSignInEnableMap = Map<string, boolean>
