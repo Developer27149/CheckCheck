@@ -23,10 +23,9 @@ export const domainCheckEntry = (
 ) => {
   const domain = getDomainFromDetails(details)
   const headerHandler = headerHandlerRecord[domain]
-  // headerHandler?.(details)
-  // details
   const uploadHandler = uploadHandlerRecord[domain]
   uploadHandler?.(details)
+  headerHandler?.(details)
 }
 
 export const commonHeaderHandlerEntry = (
@@ -45,7 +44,7 @@ export const bodyHandlerEntry = (
 ) => {
   console.log("header handler entry:", requestBody)
   console.log("domain:", domain)
-  const headerHandler = headerHandlerRecord[domain]
+  const headerHandler = uploadHandlerRecord[domain]
   headerHandler?.(requestBody)
 }
 
