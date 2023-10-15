@@ -1,6 +1,5 @@
-import { getSyncCheckStatusRecord } from "~module/help"
 import { juejinHeaderHandler, juejinUploadDataHandler } from "~module/juejin"
-import { EStorageKey, EWebsite, TSignInEnableMap, type } from "~types"
+import { EJuejinKeyword } from "~types"
 
 export const getDomainFromDetails = (
   details: chrome.webRequest.WebRequestDetails
@@ -10,11 +9,11 @@ export const getDomainFromDetails = (
 }
 
 const headerHandlerRecord = {
-  [EWebsite.juejinHeader]: juejinHeaderHandler
+  [EJuejinKeyword.域名]: juejinHeaderHandler
 }
 
 const uploadHandlerRecord = {
-  [EWebsite.juejinHeader]: juejinUploadDataHandler
+  [EJuejinKeyword.域名]: juejinUploadDataHandler
 }
 
 export const domainCheckEntry = (
@@ -100,13 +99,4 @@ export const setIsClickTip = (isClickTip: boolean) => {
 
 export const asyncSleep = (ms: number = 1500) => {
   return new Promise((resolve) => setTimeout(resolve, ms))
-}
-
-// 读取应用的签到记录, 初始化所有插件模块的状态
-export const initStorageCheckTask = async (
-  callback: (record: TSignInEnableMap) => unknown
-) => {
-  // 检查已启用的数据
-  const record = await getSyncCheckStatusRecord()
-  callback(record)
 }

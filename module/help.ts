@@ -1,5 +1,3 @@
-import { EStatus, EStorageKey, EWebsite, TSignInEnableMap, type } from "~types"
-
 export const getHeaderFromRequestHeaders = (
   requestHeaders: chrome.webRequest.HttpHeader[]
 ) => {
@@ -40,38 +38,5 @@ export const saveWebsiteCheckInStatus = async (key: string, value: boolean) => {
   } catch (error) {
     console.log("key:", key, " value:", value)
     console.log("保存站点签到状态失败", error)
-  }
-}
-
-export const getSyncCheckStatusRecord = async (): Promise<TSignInEnableMap> => {
-  const record = await chrome.storage.sync.get(EStorageKey.签到启用状态表)
-  return record[EStorageKey.签到启用状态表] ?? new Map()
-}
-
-const saveSyncCheckStatusRecord = (record: TSignInEnableMap) =>
-  chrome.storage.sync.set({
-    [EStorageKey.签到启用状态表]: record
-  })
-
-// 读取站点是否启用签到的状态
-export const checkIsEnableByWebsiteKey = async (key: EWebsite) => {
-  try {
-    const record = await getSyncCheckStatusRecord()
-    return record.has(key) ? record.get(key) : true
-  } catch (error) {
-    console.log("failed: get status by key:", key)
-    return false
-  }
-}
-
-// 保存签到记录启用状态
-export const saveCheckInRecord = async (key: string, value: boolean) => {
-  try {
-    const record = await getSyncCheckStatusRecord()
-    record[key] = value
-    await saveSyncCheckStatusRecord(record)
-  } catch (error) {
-    console.log("key:", key, " value:", value)
-    console.log("保存签到记录启用状态失败", error)
   }
 }

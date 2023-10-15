@@ -1,32 +1,21 @@
-export enum EWebsite {
-  juejin = "https://api.juejin.cn/*",
-  juejinHeader = "api.juejin.cn",
-  juejinCheckInUrl = "https://api.juejin.cn/growth_api/v1/check_in?",
-  juejinCheckInPage = "https://juejin.cn/user/center/signin?from=main_page"
+// JUE JIN >> Enums
+export enum EJuejinStorageKey {
+  签到启用状态 = "juejin-check-in-enable-status",
+  签到记录 = "juejin-check-in-record",
+  签到页面 = "juejin-check-in-page",
+  请求头 = "juejin-check-in-header",
+  请求凭证 = "juejin-check-in-cookie"
 }
 
-export enum EStorageKey {
-  // 签到记录配置
-  CheckInRecord = "checkInRecord",
-  // 站点头部配置
-  WebsiteHeader = "websiteHeader",
-  // 站点请求体配置
-  WebsiteBody = "websiteBody"
+export enum EJuejinKeyword {
+  网络通配符 = "https://api.juejin.cn/*",
+  签到接口地址 = "https://api.juejin.cn/growth_api/v1/check_in?",
+  签到页面 = "https://juejin.cn/user/center/signin?from=main_page",
+  域名 = "api.juejin.cn"
 }
 
-export enum EStatusKey {
-  juejin = EWebsite.juejinHeader
+// COMMON  >> Enums
+export enum EArea {
+  Sync = "sync",
+  Local = "local"
 }
-
-export enum EStatus {
-  Disable = "disable",
-  Enable = "enable"
-}
-
-// sign in status record
-export enum EStorageKey {
-  签到启用状态表 = "checkInEnableStatus",
-  签到记录表 = "checkInRecord"
-}
-
-export type TSignInEnableMap = Map<string, boolean>

@@ -1,48 +1,34 @@
-import clsx from "clsx"
-import { useAtom } from "jotai"
-import { useEffect, useState } from "react"
-
 import Status from "~components/Status"
-import {
-  checkIsEnableByWebsiteKey,
-  saveWebsiteCheckInStatus
-} from "~module/help"
-import { juejinStore } from "~store"
-import { EStatus, EStatusKey, EStorageKey, EWebsite } from "~types"
+import { EJuejinKeyword, EJuejinStorageKey } from "~types"
+import { saveToStorage } from "~utils/storage"
 
 import Logo from "./Logo"
+import { useInitLogic } from "./useInitLogic"
 
 export default function () {
-  const [config, setConfig] = useAtom(juejinStore)
+  const { hadSign, isEnable, setIsEnable } = useInitLogic()
 
-  useEffect(() => {
-    // 检查是否启用
-    checkIsEnableByWebsiteKey(EWebsite.juejinHeader).then(async (isEnable) => {
-      console.log("juejin is enable:", isEnable)
-
-      // setConfig({ status:  })
-    })
-  }, [])
-
-  const onChangeState = (status: EStatus) => {
-    console.log("change juejin state", status)
-    setConfig({ status })
-    saveWebsiteCheckInStatus(
-      EWebsite.juejinHeader,
-      status === EStatus.Disable ? false : true
-    )
+  const reverseStatus = () => {
+    setIsEnable(!isEnable)
+    // save to storage
+    saveToStorage(EJuejinStorageKey.签到启用状态, !isEnable)
   }
 
   return (
-    <div className="relative cursor-pointer bg-[#f7f8fa] flex items-center justify-between gap-4 p-6 rounded-lg">
+    <div
+      className="relative cursor-pointer flex items-center justify-between gap-4 p-6 rounded-lg"
+      style={{
+        background: "linear-gradient(45deg, #b6f9ef, transparent)"
+      }}>
       <Logo />
-      <Status
-        status={config.status}
-        checkInPage={EWebsite.juejinCheckInPage}
-        enableKey={EStatusKey.juejin}
-        onEnable={() => onChangeState(EStatus.Wait2Reset)}
-        onDisable={() => onChangeState(EStatus.Disable)}
-      />
+      <div>
+        <Status
+          checkInPage={EJuejinKeyword.签到页面}
+          isEnable={isEnable}
+          reverseStatus={reverseStatus}
+          hadSign={hadSign}
+        />
+      </div>
     </div>
   )
 }
