@@ -1,4 +1,4 @@
-import { juejinHeaderHandler, juejinUploadDataHandler } from "~module/juejin"
+import { juejinHeaderHandler, juejinUploadDataHandler } from "~module/juejin";
 import { EJuejinKeyword } from "~types"
 
 export const getDomainFromDetails = (
@@ -16,24 +16,13 @@ const uploadHandlerRecord = {
   [EJuejinKeyword.域名]: juejinUploadDataHandler
 }
 
-export const domainCheckEntry = (
-  details:
-    | chrome.webRequest.WebRequestHeadersDetails
-    | chrome.webRequest.WebRequestBodyDetails
-) => {
-  const domain = getDomainFromDetails(details)
-  const headerHandler = headerHandlerRecord[domain]
-  const uploadHandler = uploadHandlerRecord[domain]
-  uploadHandler?.(details)
-  headerHandler?.(details)
-}
-
 export const commonHeaderHandlerEntry = (
   details: chrome.webRequest.WebRequestHeadersDetails
 ) => {
   const domain = getDomainFromDetails(details)
   const headerHandler = headerHandlerRecord[domain]
   headerHandler?.(details)
+  console.log("details", details)
 }
 
 export const headersHandlerEntry = () => {}

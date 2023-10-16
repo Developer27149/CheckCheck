@@ -4,7 +4,9 @@ export enum EJuejinStorageKey {
   签到记录 = "juejin-check-in-record",
   签到页面 = "juejin-check-in-page",
   请求头 = "juejin-check-in-header",
-  请求凭证 = "juejin-check-in-cookie"
+  请求凭证 = "juejin-check-in-cookie",
+  url = "juejin-check-in-url",
+  method = "juejin-check-in-method"
 }
 
 export enum EJuejinKeyword {
