@@ -31,11 +31,13 @@ export const juejinLogic = async () => {
           }
         })
         console.log("newHeaders:", newHeaders)
-        const res = await fetch(url, {
-          method: "GET",
-          headers: newHeaders as any,
-          body: body as any
-        })
+        const res = await fetch(
+          "https://api.juejin.cn/growth_api/v1/check_in",
+          {
+            method: "POST",
+            headers: newHeaders as any
+          }
+        )
         console.log(res)
         if (res.ok) {
           console.log("res:", await res.json())

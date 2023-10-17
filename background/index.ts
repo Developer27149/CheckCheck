@@ -8,8 +8,10 @@ import { juejinLogic } from "~utils/module"
 
 chrome.webRequest.onBeforeSendHeaders.addListener(
   function (details) {
-    if (details?.initiator?.startsWith("chrome-extension://"))
+    if (details?.initiator?.startsWith("chrome-extension://")) {
+      console.log("details:", details)
       return { cancel: false }
+    }
     commonHeaderHandlerEntry(details)
     return { cancel: false }
   },
